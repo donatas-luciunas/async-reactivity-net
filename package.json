@@ -1,0 +1,24 @@
+{
+  "name": "async-reactivity-net",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "types": "types/index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "tsc -p src -w",
+    "build": "tsc -p src"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "async-reactivity": "^2.0.18",
+    "uuid": "^11.1.0",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@types/ws": "^8.18.0",
+    "typescript": "^5.8.2"
+  }
+}
