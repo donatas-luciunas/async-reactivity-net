@@ -18,6 +18,9 @@ importers:
         specifier: ^8.18.0
         version: 8.18.1
     devDependencies:
+      '@types/node':
+        specifier: ^22.13.11
+        version: 22.13.11
       '@types/ws':
         specifier: ^8.18.0
         version: 8.18.0
