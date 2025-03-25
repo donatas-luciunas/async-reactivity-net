@@ -1,12 +1,7 @@
 import { WebSocket, MessageEvent } from 'ws';
 import { Dependency, Ref, Watcher } from 'async-reactivity';
 import { LiveQuery, LiveQueryConstructor } from "./LiveQuery.js";
-
-export interface PropertyPathPart {
-    type: 'property' | 'function';
-    name?: string;
-    arguments?: (string | number | boolean | null)[];
-}
+import { PropertyPathPart } from './PathSerializer.js';
 
 export interface Message {
     liveQuery: {
