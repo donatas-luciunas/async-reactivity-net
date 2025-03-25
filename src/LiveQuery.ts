@@ -1,14 +1,15 @@
-import { v4 as uuidv4 } from 'uuid';
 import Connection from "./Connection.js";
 import Query from "./Query.js";
 
-export default abstract class LiveQuery extends Query {
-    public readonly id: string;
-    public readonly connection: Connection;
-
-    constructor(connection: Connection, id?: string) {
-        super();
-        this.connection = connection;
-        this.id = id ?? uuidv4();
-    }
+export interface Live {
+    readonly id: string;
+    readonly connection: Connection;
 }
+
+export type LiveQuery = Query & Live;
+
+export interface LiveQueryConstructor {
+    new (connection: Connection, id?: string): LiveQuery;
+}
+
+export { v4 as newId } from 'uuid';

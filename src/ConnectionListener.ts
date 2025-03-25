@@ -1,6 +1,6 @@
 import { Dependency, AsyncListener } from "async-reactivity";
 import { PropertyPathPart } from "./Connection.js";
-import LiveQuery from "./LiveQuery.js";
+import { LiveQuery } from "./LiveQuery.js";
 
 const proxyPath = Symbol('proxyPath');
 
