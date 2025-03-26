@@ -38,15 +38,21 @@ export default class Connection {
 
         if (message.watch) {
             if (!this.watchers.has(property)) {
+                let previousData: string;
                 this.watchers.set(property, new Watcher(property, async (value) => {
-                    this.socket.send(JSON.stringify({
+                    const data = JSON.stringify({
                         liveQuery: {
                             type: liveQuery.constructor.name,
                             id: liveQuery.id,
                         },
                         path: message.path,
                         set: await value
-                    }));
+                    });
+                    if (data === previousData) {
+                        return;
+                    }
+                    this.socket.send(data);
+                    previousData = data;
                 }));
             }
         } else if (message.unwatch) {
