@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       async-reactivity:
-        specifier: ^2.0.19
-        version: 2.0.19
+        specifier: ^2.0.20
+        version: 2.0.20
       uuid:
         specifier: ^11.1.0
         version: 11.1.0
@@ -36,8 +36,11 @@ packages:
   '@types/ws@8.18.0':
     resolution: {integrity: sha512-8svvI3hMyvN0kKCJMvTJP/x6Y/EoQbepff882wL+Sn5QsXb3etnamgrJq4isrBxSJj5L2AuXcI0+bgkoAXGUJw==}
 
-  async-reactivity@2.0.19:
-    resolution: {integrity: sha512-LfRgAucDexdk0eihRDNsO0hsPjx4OtOnCnl3Ny1CjOUlDKl9eLiwx9dqv2dfLPTvtgA16UkdvKfGEYE6EVf1lQ==}
+  async-reactivity@2.0.20:
+    resolution: {integrity: sha512-NXij0LvRhyMbS4WGQ9gSs1GSTrCqbCYJ/CKLl+kRVffygUWllMfrTAXxykpk4SHON+JpoECy5dHitzlllqaLJw==}
+
+  lodash-es@4.17.21:
+    resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
 
   typescript@5.8.2:
     resolution: {integrity: sha512-aJn6wq13/afZp/jT9QZmwEjDqqvSGp1VT5GVg+f/t6/oVyrgXM6BY1h9BRh/O5p3PlUPAe+WuiEZOmb/49RqoQ==}
@@ -73,7 +76,11 @@ snapshots:
     dependencies:
       '@types/node': 22.13.11
 
-  async-reactivity@2.0.19: {}
+  async-reactivity@2.0.20:
+    dependencies:
+      lodash-es: 4.17.21
+
+  lodash-es@4.17.21: {}
 
   typescript@5.8.2: {}
 
