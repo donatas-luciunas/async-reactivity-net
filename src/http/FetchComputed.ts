@@ -1,5 +1,5 @@
 import { Computed, ComputeFuncScoped, Dependency } from "async-reactivity";
-import { serialize } from "./PathSerializer";
+import { serialize } from "../PathSerializer.js";
 import { FetchQuery } from "./FetchQuery.js";
 
 export default class FetchComputed<

@@ -1,4 +1,5 @@
 import { Dependency } from "async-reactivity";
+import Query from "./Query";
 
 export interface PropertyPathPart {
     type: 'property' | 'function';
@@ -57,4 +58,16 @@ export const serialize = async <T1, T2>(func: (proxy: T2) => Promise<Dependency<
         inputs,
         output: (output as any)[proxyPath] as PropertyPathPart[],
     };
+};
+
+export const getQueryProperty = async (query: Query, path: PropertyPathPart[]) => {
+    let target: any = query;
+    for (const part of path) {
+        if (part.type === 'property') {
+            target = await target[part.name!];
+        } else if (part.type === 'function') {
+            target = await target(...part.arguments!);
+        }
+    }
+    return target;
 };

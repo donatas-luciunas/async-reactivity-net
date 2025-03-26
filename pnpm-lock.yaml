@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       async-reactivity:
-        specifier: ^2.0.18
-        version: 2.0.18
+        specifier: ^2.0.19
+        version: 2.0.19
       uuid:
         specifier: ^11.1.0
         version: 11.1.0
@@ -36,8 +36,8 @@ packages:
   '@types/ws@8.18.0':
     resolution: {integrity: sha512-8svvI3hMyvN0kKCJMvTJP/x6Y/EoQbepff882wL+Sn5QsXb3etnamgrJq4isrBxSJj5L2AuXcI0+bgkoAXGUJw==}
 
-  async-reactivity@2.0.18:
-    resolution: {integrity: sha512-SD5nEzuYzZzDb6ZQ0rWILjpkKgoSg/myEI2qMB3zOnDzNVjMMc1zyr/Bzds6Lelk94F4Kz9WjzN8sOhZ1CHK5w==}
+  async-reactivity@2.0.19:
+    resolution: {integrity: sha512-LfRgAucDexdk0eihRDNsO0hsPjx4OtOnCnl3Ny1CjOUlDKl9eLiwx9dqv2dfLPTvtgA16UkdvKfGEYE6EVf1lQ==}
 
   typescript@5.8.2:
     resolution: {integrity: sha512-aJn6wq13/afZp/jT9QZmwEjDqqvSGp1VT5GVg+f/t6/oVyrgXM6BY1h9BRh/O5p3PlUPAe+WuiEZOmb/49RqoQ==}
@@ -73,7 +73,7 @@ snapshots:
     dependencies:
       '@types/node': 22.13.11
 
-  async-reactivity@2.0.18: {}
+  async-reactivity@2.0.19: {}
 
   typescript@5.8.2: {}
 

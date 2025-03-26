@@ -1,7 +1,7 @@
 import { WebSocket, MessageEvent } from 'ws';
 import { Dependency, Ref, Watcher } from 'async-reactivity';
 import { LiveQuery, LiveQueryConstructor } from "./LiveQuery.js";
-import { PropertyPathPart } from './PathSerializer.js';
+import { getQueryProperty, PropertyPathPart } from '../PathSerializer.js';
 
 export interface Message {
     liveQuery: {
@@ -15,18 +15,6 @@ export interface Message {
 }
 
 const getLiveQueryKey = (type: string, id: string) => `${type}-${id}`;
-
-const getLiveQueryProperty = async (liveQuery: LiveQuery, path: PropertyPathPart[]) => {
-    let target: any = liveQuery;
-    for (const part of path) {
-        if (part.type === 'property') {
-            target = await target[part.name!];
-        } else if (part.type === 'function') {
-            target = await target(...part.arguments!);
-        }
-    }
-    return target;
-};
 
 export default class Connection {
     private socket: WebSocket;
@@ -46,7 +34,7 @@ export default class Connection {
 
         const liveQuery = this.getOrCreateLiveQuery(message.liveQuery);
 
-        const property: Dependency<any> = await getLiveQueryProperty(liveQuery, message.path);
+        const property: Dependency<any> = await getQueryProperty(liveQuery, message.path);
 
         if (message.watch) {
             if (!this.watchers.has(property)) {
