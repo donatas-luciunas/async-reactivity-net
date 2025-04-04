@@ -1,5 +1,5 @@
 export { default as Query } from './Query.js';
-export * from './PathSerializer.js';
+export * from './Serializer.js';
 
 export * from './http/FetchQuery.js';
 export { default as FetchComputed } from './http/FetchComputed.js';

@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       async-reactivity:
-        specifier: ^2.0.20
-        version: 2.0.20
+        specifier: ^2.0.21
+        version: 2.0.21
       uuid:
         specifier: ^11.1.0
         version: 11.1.0
@@ -36,8 +36,8 @@ packages:
   '@types/ws@8.18.0':
     resolution: {integrity: sha512-8svvI3hMyvN0kKCJMvTJP/x6Y/EoQbepff882wL+Sn5QsXb3etnamgrJq4isrBxSJj5L2AuXcI0+bgkoAXGUJw==}
 
-  async-reactivity@2.0.20:
-    resolution: {integrity: sha512-NXij0LvRhyMbS4WGQ9gSs1GSTrCqbCYJ/CKLl+kRVffygUWllMfrTAXxykpk4SHON+JpoECy5dHitzlllqaLJw==}
+  async-reactivity@2.0.21:
+    resolution: {integrity: sha512-uuVRL2Ub/xCAmincu+IJW394L8xNRVyoIB/ccjHwDELyjMl2qHmLOz5YNDt448WvG2GcJWDVj8tvbvHOpjgeqw==}
 
   lodash-es@4.17.21:
     resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
@@ -76,7 +76,7 @@ snapshots:
     dependencies:
       '@types/node': 22.13.11
 
-  async-reactivity@2.0.20:
+  async-reactivity@2.0.21:
     dependencies:
       lodash-es: 4.17.21
 

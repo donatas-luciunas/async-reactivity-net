@@ -1,4 +1,4 @@
-import { Input, PropertyPathPart } from "../PathSerializer.js";
+import { Input, PropertyPathPart } from "../Serializer.js";
 import Query from "../Query.js";
 
 export interface FetchBody {

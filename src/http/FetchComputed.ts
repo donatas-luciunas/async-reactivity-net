@@ -1,21 +1,17 @@
 import { Computed, ComputeFuncScoped, Dependency } from "async-reactivity";
-import { serialize } from "../PathSerializer.js";
+import { serialize } from "../Serializer.js";
 import { FetchQuery } from "./FetchQuery.js";
 
-export default class FetchComputed<
-    T1 extends FetchQuery,
-    T2 extends TBase,
-    TBase = T2,
-> extends Computed<Promise<T2>, Promise<TBase>> {
+export default class FetchComputed<T1, T2 extends FetchQuery> extends Computed<Promise<T1>> {
     constructor(
-        query: T1,
-        getter: ComputeFuncScoped<T1, Promise<Dependency<Promise<T2>>>>,
-        isEqual?: (v1: Promise<TBase>, v2: Promise<TBase>) => boolean
+        query: T2,
+        getter: ComputeFuncScoped<T2, Promise<Dependency<Promise<T1>>>>,
+        isEqual?: (v1: Promise<T1>, v2: Promise<T1>) => boolean
     ) {
         super(async (value) => {
-            const { inputs, output } = await serialize<T2, T1>(c => getter(value, c));
+            const { inputs, output } = await serialize<T1, T2>(c => getter(value, c));
 
-            return query.fetch<T2>({
+            return query.fetch<T1>({
                 type: query.constructor.name,
                 inputs,
                 output

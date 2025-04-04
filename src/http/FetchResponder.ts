@@ -1,4 +1,4 @@
-import { getQueryProperty } from "../PathSerializer.js";
+import { getQueryProperty } from "../Serializer.js";
 import { FetchBody } from "./FetchQuery.js";
 
 type Constructor = new (...args: any) => any;

@@ -1,7 +1,7 @@
 import { WebSocket, MessageEvent } from 'ws';
 import { Dependency, Ref, Watcher } from 'async-reactivity';
 import { LiveQuery, LiveQueryConstructor } from "./LiveQuery.js";
-import { getQueryProperty, PropertyPathPart } from '../PathSerializer.js';
+import { getQueryProperty, PropertyPathPart } from '../Serializer.js';
 
 export interface Message {
     liveQuery: {
