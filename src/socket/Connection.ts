@@ -45,13 +45,25 @@ export default class Connection {
             if (!this.watchers.has(property)) {
                 let previousData: string;
                 this.watchers.set(property, new Watcher(property, async (value) => {
+                    let set;
+                    try {
+                        set = {
+                            type: 'resolve',
+                            value: await value
+                        };
+                    } catch (e) {
+                        set = {
+                            type: 'reject',
+                            value: e
+                        };
+                    }
                     const data = this.serializer.stringify({
                         liveQuery: {
                             type: liveQuery.constructor.name,
                             id: liveQuery.id,
                         },
                         path: message.path,
-                        set: await value
+                        set
                     });
                     if (data === previousData) {
                         return;
@@ -64,8 +76,8 @@ export default class Connection {
             const w = this.watchers.get(property);
             this.watchers.delete(property);
             w?.dispose();
-        } else {
-            (property as Ref<any>).value = Promise.resolve(message.set);
+        } else if (message.set) {
+            (property as Ref<any>).value = (message.set.type === 'resolve' ? Promise.resolve : Promise.reject)(message.set.value);
         }
     }
 
