@@ -77,7 +77,7 @@ export default class Connection {
             this.watchers.delete(property);
             w?.dispose();
         } else if (message.set) {
-            (property as Ref<any>).value = (message.set.type === 'resolve' ? Promise.resolve : Promise.reject)(message.set.value);
+            (property as Ref<any>).value = message.set.type === 'resolve' ? Promise.resolve(message.set.value) : Promise.reject(message.set.value);
         }
     }
 
