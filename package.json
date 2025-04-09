@@ -1,6 +1,6 @@
 {
   "name": "async-reactivity-net",
-  "version": "2.0.9",
+  "version": "2.0.11",
   "description": "",
   "main": "lib/index.js",
   "types": "types/index.js",

@@ -8,5 +8,5 @@ export interface FetchBody {
 }
 
 export type FetchQuery = Query & {
-    readonly fetch: <T>(body: FetchBody) => Promise<T>
+    readonly fetch: <T>(body: FetchBody, abortSignal: AbortSignal) => Promise<T>
 };
