@@ -1,4 +1,4 @@
-import { WebSocket, MessageEvent } from 'ws';
+import { WebSocket, MessageEvent, Data } from 'ws';
 import { Dependency, Ref, Watcher } from 'async-reactivity';
 import { LiveQuery, LiveQueryConstructor } from "./LiveQuery.js";
 import { getQueryProperty, PropertyPathPart } from '../Serializer.js';
@@ -17,8 +17,8 @@ export interface Message {
 const getLiveQueryKey = (type: string, id: string) => `${type}-${id}`;
 
 interface Serializer {
-    parse(text: string): any;
-    stringify(value: any): string;
+    parse(data: Data): any;
+    stringify(value: any): Data;
 }
 
 export default class Connection {
@@ -35,7 +35,7 @@ export default class Connection {
     }
 
     private onMessage = async (event: MessageEvent) => {
-        const message: Message = this.serializer.parse(event.data.toString());
+        const message: Message = this.serializer.parse(event.data);
 
         const liveQuery = this.getOrCreateLiveQuery(message.liveQuery);
 
@@ -43,7 +43,7 @@ export default class Connection {
 
         if (message.watch) {
             if (!this.watchers.has(property)) {
-                let previousData: string;
+                let previousData: Data;
                 this.watchers.set(property, new Watcher(property, async (value) => {
                     let set;
                     try {
