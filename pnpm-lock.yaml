@@ -9,18 +9,18 @@ importers:
   .:
     dependencies:
       async-reactivity:
-        specifier: ^2.0.25
-        version: 2.0.25
+        specifier: ^2.0.27
+        version: 2.0.27
       uuid:
-        specifier: ^11.1.0
-        version: 11.1.0
+        specifier: ^13.0.0
+        version: 13.0.0
       ws:
         specifier: ^8.19.0
         version: 8.19.0
     devDependencies:
       '@types/node':
-        specifier: ^22.19.11
-        version: 22.19.11
+        specifier: ^24.11.0
+        version: 24.11.0
       '@types/ws':
         specifier: ^8.18.1
         version: 8.18.1
@@ -30,14 +30,14 @@ importers:
 
 packages:
 
-  '@types/node@22.19.11':
-    resolution: {integrity: sha512-BH7YwL6rA93ReqeQS1c4bsPpcfOmJasG+Fkr6Y59q83f9M1WcBRHR2vM+P9eOisYRcN3ujQoiZY8uk5W+1WL8w==}
+  '@types/node@24.11.0':
+    resolution: {integrity: sha512-fPxQqz4VTgPI/IQ+lj9r0h+fDR66bzoeMGHp8ASee+32OSGIkeASsoZuJixsQoVef1QJbeubcPBxKk22QVoWdw==}
 
   '@types/ws@8.18.1':
     resolution: {integrity: sha512-ThVF6DCVhA8kUGy+aazFQ4kXQ7E1Ty7A3ypFOe0IcJV8O/M511G99AW24irKrW56Wt44yG9+ij8FaqoBGkuBXg==}
 
-  async-reactivity@2.0.25:
-    resolution: {integrity: sha512-48lEwFfSTeAEGhR1zhGH7T3meelCkXI0Dy9W3Wu+lFTPDuvXEJ19h9ccqhTq142Qso7+enxd5VU5Or4E+zmb4A==}
+  async-reactivity@2.0.27:
+    resolution: {integrity: sha512-lHos5GzXKhVwCQQBFRhl0FaLhRddr80b+vY+6oCBe5zV7CLqeUYTGK3a1rv9aCZaPfK8x0zNi1GakFFVn9Rv7A==}
 
   lodash-es@4.17.23:
     resolution: {integrity: sha512-kVI48u3PZr38HdYz98UmfPnXl2DXrpdctLrFLCd3kOx1xUkOmpFPx7gCWWM5MPkL/fD8zb+Ph0QzjGFs4+hHWg==}
@@ -47,11 +47,11 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
-  undici-types@6.21.0:
-    resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
+  undici-types@7.16.0:
+    resolution: {integrity: sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==}
 
-  uuid@11.1.0:
-    resolution: {integrity: sha512-0/A9rDy9P7cJ+8w1c9WD9V//9Wj15Ce2MPz8Ri6032usz+NfePxx5AcN3bN+r6ZL6jEo066/yNYB3tn4pQEx+A==}
+  uuid@13.0.0:
+    resolution: {integrity: sha512-XQegIaBTVUjSHliKqcnFqYypAd4S+WCYt5NIeRs6w/UAry7z8Y9j5ZwRRL4kzq9U3sD6v+85er9FvkEaBpji2w==}
     hasBin: true
 
   ws@8.19.0:
@@ -68,15 +68,15 @@ packages:
 
 snapshots:
 
-  '@types/node@22.19.11':
+  '@types/node@24.11.0':
     dependencies:
-      undici-types: 6.21.0
+      undici-types: 7.16.0
 
   '@types/ws@8.18.1':
     dependencies:
-      '@types/node': 22.19.11
+      '@types/node': 24.11.0
 
-  async-reactivity@2.0.25:
+  async-reactivity@2.0.27:
     dependencies:
       lodash-es: 4.17.23
 
@@ -84,8 +84,8 @@ snapshots:
 
   typescript@5.9.3: {}
 
-  undici-types@6.21.0: {}
+  undici-types@7.16.0: {}
 
-  uuid@11.1.0: {}
+  uuid@13.0.0: {}
 
   ws@8.19.0: {}

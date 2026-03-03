@@ -1,5 +1,5 @@
 import { Dependency } from "async-reactivity";
-import Query from "./Query";
+import Query from "./Query.js";
 
 export interface PropertyPathPart {
     type: 'property' | 'function';
