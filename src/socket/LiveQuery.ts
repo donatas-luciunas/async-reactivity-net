@@ -6,8 +6,6 @@ export type LiveQuery = Query & {
     readonly connection: Connection;
 };
 
-export interface LiveQueryConstructor {
-    new (connection: Connection, id?: string): LiveQuery;
-}
+export type LiveQueryConstructor = (new (connection: Connection, id: string) => LiveQuery) & { type: string };
 
 export { v4 as newId } from 'uuid';

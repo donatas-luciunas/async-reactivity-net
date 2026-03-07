@@ -1,6 +1,8 @@
 import { Dependent } from "async-reactivity";
 
 export default abstract class Query {
+    static readonly type: string;
+
     private dependents: Dependent[] = [];
 
     protected register = <T extends Dependent>(d: T): T => {
@@ -14,3 +16,5 @@ export default abstract class Query {
         }
     }
 }
+
+export type QueryConstructor = (new () => Query) & { type: string };

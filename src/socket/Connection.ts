@@ -29,7 +29,7 @@ export default class Connection {
 
     constructor(socket: WebSocket, liveQueryTypes: LiveQueryConstructor[], private readonly serializer: Serializer = JSON) {
         this.socket = socket;
-        this.liveQueryTypes = new Map(liveQueryTypes.map(t => [t.name, t]));
+        this.liveQueryTypes = new Map(liveQueryTypes.map(t => [t.type, t]));
         socket.addEventListener('message', this.onMessage);
         socket.addEventListener('close', this.onClose);
     }
@@ -59,7 +59,7 @@ export default class Connection {
                     }
                     const data = this.serializer.stringify({
                         liveQuery: {
-                            type: liveQuery.constructor.name,
+                            type: (liveQuery.constructor as LiveQueryConstructor).type,
                             id: liveQuery.id,
                         },
                         path: message.path,
@@ -90,21 +90,21 @@ export default class Connection {
         let liveQuery = this.liveQueries.get(key);
         if (!liveQuery) {
             const type = this.liveQueryTypes.get(liveQueryHead.type)!;
-            liveQuery = new type(this, liveQueryHead.id);
+            liveQuery = new type(this, liveQueryHead.id) as LiveQuery;
             this.liveQueries.set(key, liveQuery);
         }
         return liveQuery;
     }
 
     add(liveQuery: LiveQuery) {
-        const key = getLiveQueryKey(liveQuery.constructor.name, liveQuery.id);
+        const key = getLiveQueryKey((liveQuery.constructor as LiveQueryConstructor).type, liveQuery.id);
         this.liveQueries.set(key, liveQuery);
     }
 
     watch(liveQuery: LiveQuery, path: PropertyPathPart[]) {
         this.socket.send(this.serializer.stringify({
             liveQuery: {
-                type: liveQuery.constructor.name,
+                type: (liveQuery.constructor as LiveQueryConstructor).type,
                 id: liveQuery.id
             },
             path,
@@ -115,7 +115,7 @@ export default class Connection {
     unwatch(liveQuery: LiveQuery, path: PropertyPathPart[]) {
         this.socket.send(this.serializer.stringify({
             liveQuery: {
-                type: liveQuery.constructor.name,
+                type: (liveQuery.constructor as LiveQueryConstructor).type,
                 id: liveQuery.id
             },
             path,

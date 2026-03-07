@@ -1,6 +1,7 @@
 import { Computed, Dependency, TrackValue } from "async-reactivity";
 import { serialize } from "../Serializer.js";
 import { FetchQuery } from "./FetchQuery.js";
+import { Query } from "../index.js";
 
 export default class FetchComputed<T1, T2 extends FetchQuery> extends Computed<Promise<T1>> {
     constructor(
@@ -12,7 +13,7 @@ export default class FetchComputed<T1, T2 extends FetchQuery> extends Computed<P
             const { inputs, output } = await serialize<T1, T2>(c => getter(value, c));
 
             return query.fetch<T1>({
-                type: query.constructor.name,
+                type: (query.constructor as typeof Query).type,
                 inputs,
                 output
             }, abortSignal);

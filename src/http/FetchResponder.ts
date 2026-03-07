@@ -1,13 +1,12 @@
+import { QueryConstructor } from "../Query.js";
 import { getQueryProperty } from "../Serializer.js";
 import { FetchBody } from "./FetchQuery.js";
 
-type Constructor = new (...args: any) => any;
-
 export default class FetchResponder {
-    private queryTypes: Map<string, Constructor>;
+    private queryTypes: Map<string, QueryConstructor>;
 
-    constructor(queryTypes: Constructor[]) {
-        this.queryTypes = new Map(queryTypes.map(t => [t.name, t]));
+    constructor(queryTypes: QueryConstructor[]) {
+        this.queryTypes = new Map(queryTypes.map(t => [t.type, t]));
     }
 
     async run(body: FetchBody) {
