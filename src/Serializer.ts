@@ -60,17 +60,20 @@ export const serialize = async <T1, T2>(func: (proxy: T2) => Promise<Dependency<
     };
 };
 
+const restrictedProperties = new Set(['__proto__', 'prototype', 'constructor', 'valueOf', 'hasOwnProperty', 'propertyIsEnumerable', 'isPrototypeOf', '__defineGetter__', '__defineSetter__', '__lookupGetter__', '__lookupSetter__', 'call', 'apply', 'bind', 'caller', 'callee', 'arguments', 'toString', 'toLocaleString']);
 export const getQueryProperty = async (query: Query, path: PropertyPathPart[]) => {
+    let lastTarget: any = undefined;
     let target: any = query;
     for (const part of path) {
         if (part.type === 'property') {
-            if (target.hasOwnProperty(part.name!)) {
-                target = await target[part.name!];
-            } else {
+            lastTarget = target;
+            if (restrictedProperties.has(part.name!)) {
                 target = undefined;
+            } else {
+                target = await target[part.name!];
             }
         } else if (part.type === 'function') {
-            target = await target(...part.arguments!);
+            target = await (target as Function).call(lastTarget, ...part.arguments!);
         }
     }
     return target;
