@@ -23,6 +23,8 @@ class Data {
 }
 
 class MyQuery extends Query {
+    static readonly type = 'MyQuery';
+
     constructor() {
         super([
             Object.getOwnPropertyDescriptor(Data.prototype, 'c')!,
@@ -166,7 +168,6 @@ describe('getQueryProperty', function () {
 
         it('listener', async function () {
             const q = new MyQuery();
-
             const path: PropertyPathPart[] = [{
                 type: 'property',
                 name: 'data'
@@ -182,6 +183,70 @@ describe('getQueryProperty', function () {
 
             assert.strictEqual(result, 32);
         });
+    });
+
+    describe('private', function () {
+
+        it('type', async function () {
+            const q = new MyQuery();
+            const path: PropertyPathPart[] = [{
+                type: 'property',
+                name: 'type'
+            }];
+
+            let result;
+            try {
+                result = await getQueryProperty(q, path);
+            } catch { }
+
+            assert.strictEqual(result, undefined);
+        });
+
+        it('allowedFunctions', async function () {
+            const q = new MyQuery();
+            const path: PropertyPathPart[] = [{
+                type: 'property',
+                name: '#allowedFunctions'
+            }];
+
+            let result;
+            try {
+                result = await getQueryProperty(q, path);
+            } catch { }
+
+            assert.strictEqual(result, undefined);
+        });
+
+        it('isAllowed', async function () {
+            const q = new MyQuery();
+            const path: PropertyPathPart[] = [{
+                type: 'property',
+                name: 'isAllowed'
+            }];
+
+            let result;
+            try {
+                result = await getQueryProperty(q, path);
+            } catch { }
+
+            assert.strictEqual(result, undefined);
+        });
+
+        it('dependents', async function () {
+            const q = new MyQuery();
+            const path: PropertyPathPart[] = [{
+                type: 'property',
+                name: '#dependents'
+            }];
+
+            let result;
+            try {
+                result = await getQueryProperty(q, path);
+            } catch { }
+
+            assert.strictEqual(result, undefined);
+        });
+
     });
 
     describe('remote script execution', async function () {
@@ -206,7 +271,7 @@ describe('getQueryProperty', function () {
                 result = await getQueryProperty(q, path);
             } catch { }
 
-            assert.notStrictEqual(result, 5);
+            assert.strictEqual(result, undefined);
         });
 
         it('function', async function () {
@@ -233,7 +298,7 @@ describe('getQueryProperty', function () {
                 result = await getQueryProperty(q, path);
             } catch { }
 
-            assert.notStrictEqual(result, 5);
+            assert.strictEqual(result, undefined);
         });
 
         it('async function', async function () {
@@ -260,7 +325,7 @@ describe('getQueryProperty', function () {
                 result = await getQueryProperty(q, path);
             } catch { }
 
-            assert.notStrictEqual(result, 5);
+            assert.strictEqual(result, undefined);
         });
     });
 
@@ -286,7 +351,7 @@ describe('getQueryProperty', function () {
             result = await getQueryProperty(q, path);
         } catch { }
 
-        assert.notStrictEqual(result, q.data.c.toString());
+        assert.strictEqual(result, undefined);
     });
 
     it('mutate', async function () {
