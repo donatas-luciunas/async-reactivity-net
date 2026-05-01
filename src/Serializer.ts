@@ -60,20 +60,30 @@ export const serialize = async <T1, T2>(func: (proxy: T2) => Promise<Dependency<
     };
 };
 
-const restrictedProperties = new Set(['__proto__', 'prototype', 'constructor', 'valueOf', 'hasOwnProperty', 'propertyIsEnumerable', 'isPrototypeOf', '__defineGetter__', '__defineSetter__', '__lookupGetter__', '__lookupSetter__', 'call', 'apply', 'bind', 'caller', 'callee', 'arguments', 'toString', 'toLocaleString']);
+// maybe it is smarter to whitelist instead of blacklist
+const restrictedProperties = new Set();
+for (const obj of [1, 1n, true, '', Symbol(), [], {}, function () { }, async function () { }, function* () { }, async function* () { }, Date(), RegExp(''), new Map(), new Set(), new WeakMap(), new WeakSet(), Promise.resolve(), new Error()]) {
+    const proto = Object.getPrototypeOf(obj);
+    for (const key of Reflect.ownKeys(proto)) {
+        try {
+            restrictedProperties.add(proto[key]);
+        } catch { }
+    }
+}
+
 export const getQueryProperty = async (query: Query, path: PropertyPathPart[]) => {
     let lastTarget: any = undefined;
     let target: any = query;
     for (const part of path) {
         if (part.type === 'property') {
             lastTarget = target;
-            if (restrictedProperties.has(part.name!)) {
+            target = await target[part.name!];
+            if (restrictedProperties.has(target)) {
                 target = undefined;
-            } else {
-                target = await target[part.name!];
             }
         } else if (part.type === 'function') {
             target = await (target as Function).call(lastTarget, ...part.arguments!);
+            lastTarget = undefined;
         }
     }
     return target;

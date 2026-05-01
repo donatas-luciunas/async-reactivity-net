@@ -12,7 +12,8 @@
   "type": "module",
   "scripts": {
     "dev": "tsc -p src -w",
-    "build": "tsc -p src"
+    "build": "tsc -p src",
+     "test": "mocha \"./{,!(node_modules)/**/}*.test.js\""
   },
   "repository": {
     "type": "git",
@@ -27,7 +28,9 @@
   },
   "devDependencies": {
     "@types/node": "^24.12.2",
+    "@types/mocha": "^10.0.10",
     "@types/ws": "^8.18.1",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "mocha": "^11.7.5"
   }
 }
