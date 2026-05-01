@@ -64,7 +64,11 @@ export const getQueryProperty = async (query: Query, path: PropertyPathPart[]) =
     let target: any = query;
     for (const part of path) {
         if (part.type === 'property') {
-            target = await target[part.name!];
+            if (target.hasOwnProperty(part.name!)) {
+                target = await target[part.name!];
+            } else {
+                target = undefined;
+            }
         } else if (part.type === 'function') {
             target = await target(...part.arguments!);
         }

@@ -9,18 +9,18 @@ importers:
   .:
     dependencies:
       async-reactivity:
-        specifier: ^2.0.27
-        version: 2.0.27
+        specifier: ^2.2.2
+        version: 2.2.2
       uuid:
-        specifier: ^13.0.0
-        version: 13.0.0
+        specifier: ^13.0.1
+        version: 13.0.1
       ws:
-        specifier: ^8.19.0
-        version: 8.19.0
+        specifier: ^8.20.0
+        version: 8.20.0
     devDependencies:
       '@types/node':
-        specifier: ^24.11.0
-        version: 24.11.0
+        specifier: ^24.12.2
+        version: 24.12.2
       '@types/ws':
         specifier: ^8.18.1
         version: 8.18.1
@@ -30,17 +30,17 @@ importers:
 
 packages:
 
-  '@types/node@24.11.0':
-    resolution: {integrity: sha512-fPxQqz4VTgPI/IQ+lj9r0h+fDR66bzoeMGHp8ASee+32OSGIkeASsoZuJixsQoVef1QJbeubcPBxKk22QVoWdw==}
+  '@types/node@24.12.2':
+    resolution: {integrity: sha512-A1sre26ke7HDIuY/M23nd9gfB+nrmhtYyMINbjI1zHJxYteKR6qSMX56FsmjMcDb3SMcjJg5BiRRgOCC/yBD0g==}
 
   '@types/ws@8.18.1':
     resolution: {integrity: sha512-ThVF6DCVhA8kUGy+aazFQ4kXQ7E1Ty7A3ypFOe0IcJV8O/M511G99AW24irKrW56Wt44yG9+ij8FaqoBGkuBXg==}
 
-  async-reactivity@2.0.27:
-    resolution: {integrity: sha512-lHos5GzXKhVwCQQBFRhl0FaLhRddr80b+vY+6oCBe5zV7CLqeUYTGK3a1rv9aCZaPfK8x0zNi1GakFFVn9Rv7A==}
+  async-reactivity@2.2.2:
+    resolution: {integrity: sha512-tEthkLrZqnwoxwd6f4IyqNxcoB1ZNTYrSbZi5pHGNZLs7sEP+9HS0q7/thNTHtXrxw4wlhu057hrO8i3ALB6LQ==}
 
-  lodash-es@4.17.23:
-    resolution: {integrity: sha512-kVI48u3PZr38HdYz98UmfPnXl2DXrpdctLrFLCd3kOx1xUkOmpFPx7gCWWM5MPkL/fD8zb+Ph0QzjGFs4+hHWg==}
+  lodash-es@4.18.1:
+    resolution: {integrity: sha512-J8xewKD/Gk22OZbhpOVSwcs60zhd95ESDwezOFuA3/099925PdHJ7OFHNTGtajL3AlZkykD32HykiMo+BIBI8A==}
 
   typescript@5.9.3:
     resolution: {integrity: sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==}
@@ -50,12 +50,12 @@ packages:
   undici-types@7.16.0:
     resolution: {integrity: sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==}
 
-  uuid@13.0.0:
-    resolution: {integrity: sha512-XQegIaBTVUjSHliKqcnFqYypAd4S+WCYt5NIeRs6w/UAry7z8Y9j5ZwRRL4kzq9U3sD6v+85er9FvkEaBpji2w==}
+  uuid@13.0.1:
+    resolution: {integrity: sha512-9ezox2roIft6ExBVTVqibSd5dc5/47Sw/uY6b4SjQUT2TzQ0tltNquWA46y4xPQmdZYqvnio22SgWd41M86+jw==}
     hasBin: true
 
-  ws@8.19.0:
-    resolution: {integrity: sha512-blAT2mjOEIi0ZzruJfIhb3nps74PRWTCz1IjglWEEpQl5XS/UNama6u2/rjFkDDouqr4L67ry+1aGIALViWjDg==}
+  ws@8.20.0:
+    resolution: {integrity: sha512-sAt8BhgNbzCtgGbt2OxmpuryO63ZoDk/sqaB/znQm94T4fCEsy/yV+7CdC1kJhOU9lboAEU7R3kquuycDoibVA==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -68,24 +68,24 @@ packages:
 
 snapshots:
 
-  '@types/node@24.11.0':
+  '@types/node@24.12.2':
     dependencies:
       undici-types: 7.16.0
 
   '@types/ws@8.18.1':
     dependencies:
-      '@types/node': 24.11.0
+      '@types/node': 24.12.2
 
-  async-reactivity@2.0.27:
+  async-reactivity@2.2.2:
     dependencies:
-      lodash-es: 4.17.23
+      lodash-es: 4.18.1
 
-  lodash-es@4.17.23: {}
+  lodash-es@4.18.1: {}
 
   typescript@5.9.3: {}
 
   undici-types@7.16.0: {}
 
-  uuid@13.0.0: {}
+  uuid@13.0.1: {}
 
-  ws@8.19.0: {}
+  ws@8.20.0: {}
