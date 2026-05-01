@@ -60,25 +60,32 @@ export const serialize = async <T1, T2>(func: (proxy: T2) => Promise<Dependency<
     };
 };
 
-// maybe it is smarter to whitelist instead of blacklist
-const restrictedProperties = new Set();
-for (const obj of [1, 1n, true, '', Symbol(), [], {}, function () { }, async function () { }, function* () { }, async function* () { }, Date(), RegExp(''), new Map(), new Set(), new WeakMap(), new WeakSet(), Promise.resolve(), new Error()]) {
-    const proto = Object.getPrototypeOf(obj);
-    for (const key of Reflect.ownKeys(proto)) {
-        try {
-            restrictedProperties.add(proto[key]);
-        } catch { }
+const isAllowedProperty = (query: Query, obj: any, propertyName: string) => {
+    if (Object.hasOwn(obj, propertyName)) {
+        return true;
     }
-}
+
+    let p = Object.getPrototypeOf(obj);
+    let d: PropertyDescriptor | undefined = undefined;
+    while (!d && p) {
+        d = Object.getOwnPropertyDescriptor(p, propertyName);
+        p = Object.getPrototypeOf(p);
+    }
+
+    return !!d && query.isAllowed(d);
+};
 
 export const getQueryProperty = async (query: Query, path: PropertyPathPart[]) => {
-    let lastTarget: any = undefined;
     let target: any = query;
+    let lastTarget: any = undefined;
+
     for (const part of path) {
         if (part.type === 'property') {
             lastTarget = target;
-            target = await target[part.name!];
-            if (restrictedProperties.has(target)) {
+            const allowed = isAllowedProperty(query, target, part.name!);
+            if (allowed) {
+                target = await target[part.name!];
+            } else {
                 target = undefined;
             }
         } else if (part.type === 'function') {
@@ -86,5 +93,6 @@ export const getQueryProperty = async (query: Query, path: PropertyPathPart[]) =
             lastTarget = undefined;
         }
     }
+
     return target;
 };

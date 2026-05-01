@@ -1,80 +1,192 @@
 import 'mocha';
+import assert from 'assert';
+import { Computed, Listener, Ref } from 'async-reactivity';
 
 import { getQueryProperty, PropertyPathPart } from './Serializer.js';
-import assert from 'assert';
+import Query from './Query.js';
+
+class Data {
+    a = 5;
+    b = [5, 10];
+    c(a: number) {
+        return a * 2;
+    }
+    d(a: number) {
+        return a * this.a;
+    }
+    async e(a: number) {
+        return a * 3;
+    }
+    f = new Ref(12);
+    g = new Computed(() => 25);
+    h = new Listener(32, () => {}, () => {});
+}
+
+class MyQuery extends Query {
+    constructor() {
+        super([
+            Object.getOwnPropertyDescriptor(Data.prototype, 'c')!,
+            Object.getOwnPropertyDescriptor(Data.prototype, 'd')!,
+            Object.getOwnPropertyDescriptor(Data.prototype, 'e')!,
+        ]);
+    }
+
+    data = new Data();
+}
 
 describe('getQueryProperty', function () {
 
     describe('get', async function () {
         it('property - number', async function () {
-            const obj = { a: 5 } as any;
+            const q = new MyQuery();
 
             const path: PropertyPathPart[] = [{
+                type: 'property',
+                name: 'data'
+            }, {
                 type: 'property',
                 name: 'a'
             }];
 
-            const result = await getQueryProperty(obj, path);
+            const result = await getQueryProperty(q, path);
 
             assert.strictEqual(result, 5);
         });
 
         it('property - array', async function () {
-            const obj = { a: [5] } as any;
+            const q = new MyQuery();
 
             const path: PropertyPathPart[] = [{
                 type: 'property',
-                name: 'a'
+                name: 'data'
+            }, {
+                type: 'property',
+                name: 'b'
             }];
 
-            const result = await getQueryProperty(obj, path);
+            const result = await getQueryProperty(q, path);
 
-            assert.strictEqual(result?.[0], 5);
+            assert.deepStrictEqual(result, [5, 10]);
         });
 
         it('function', async function () {
-            const obj = { a: (b: number) => b * 2 } as any;
+            const q = new MyQuery();
 
             const path: PropertyPathPart[] = [{
                 type: 'property',
-                name: 'a'
+                name: 'data'
+            }, {
+                type: 'property',
+                name: 'c'
             }, {
                 type: 'function',
                 arguments: [2]
             }];
 
-            const result = await getQueryProperty(obj, path);
+            const result = await getQueryProperty(q, path);
 
             assert.strictEqual(result, 4);
         });
 
         it('function this', async function () {
-            class A {
-                a = 5;
-                f() {
-                    return this.a;
-                }
-            }
-
-            const obj = new A() as any;
+            const q = new MyQuery();
 
             const path: PropertyPathPart[] = [{
                 type: 'property',
-                name: 'f'
+                name: 'data'
+            }, {
+                type: 'property',
+                name: 'd'
             }, {
                 type: 'function',
-                arguments: []
+                arguments: [2]
             }];
 
-            const result = await getQueryProperty(obj, path);
+            const result = await getQueryProperty(q, path);
 
-            assert.strictEqual(result, 5);
+            assert.strictEqual(result, 10);
+        });
+
+        it('async function', async function () {
+            const q = new MyQuery();
+
+            const path: PropertyPathPart[] = [{
+                type: 'property',
+                name: 'data'
+            }, {
+                type: 'property',
+                name: 'e'
+            }, {
+                type: 'function',
+                arguments: [2]
+            }];
+
+            const result = await getQueryProperty(q, path);
+
+            assert.strictEqual(result, 6);
+        });
+
+        it('ref', async function () {
+            const q = new MyQuery();
+
+            const path: PropertyPathPart[] = [{
+                type: 'property',
+                name: 'data'
+            }, {
+                type: 'property',
+                name: 'f'
+            }, {
+                type: 'property',
+                name: 'value'
+            }];
+
+            const result = await getQueryProperty(q, path);
+
+            assert.strictEqual(result, 12);
+        });
+
+        it('computed', async function () {
+            const q = new MyQuery();
+
+            const path: PropertyPathPart[] = [{
+                type: 'property',
+                name: 'data'
+            }, {
+                type: 'property',
+                name: 'g'
+            }, {
+                type: 'property',
+                name: 'value'
+            }];
+
+            const result = await getQueryProperty(q, path);
+
+            assert.strictEqual(result, 25);
+        });
+
+        it('listener', async function () {
+            const q = new MyQuery();
+
+            const path: PropertyPathPart[] = [{
+                type: 'property',
+                name: 'data'
+            }, {
+                type: 'property',
+                name: 'h'
+            }, {
+                type: 'property',
+                name: 'value'
+            }];
+
+            const result = await getQueryProperty(q, path);
+
+            assert.strictEqual(result, 32);
         });
     });
 
     describe('remote script execution', async function () {
         it('object', async function () {
-            const obj = {} as any;
+            const q = new MyQuery();
             const path: PropertyPathPart[] = [{
                 type: 'property',
                 name: 'constructor'
@@ -91,17 +203,20 @@ describe('getQueryProperty', function () {
 
             let result;
             try {
-                result = await getQueryProperty(obj, path);
+                result = await getQueryProperty(q, path);
             } catch { }
-            
+
             assert.notStrictEqual(result, 5);
         });
 
         it('function', async function () {
-            const obj = { f: () => { } } as any;
+            const q = new MyQuery();
             const path: PropertyPathPart[] = [{
                 type: 'property',
-                name: 'f'
+                name: 'data'
+            }, {
+                type: 'property',
+                name: 'c'
             }, {
                 type: 'property',
                 name: 'constructor'
@@ -115,17 +230,20 @@ describe('getQueryProperty', function () {
 
             let result;
             try {
-                result = await getQueryProperty(obj, path);
+                result = await getQueryProperty(q, path);
             } catch { }
 
             assert.notStrictEqual(result, 5);
         });
 
         it('async function', async function () {
-            const obj = { f: async () => { } } as any;
+            const q = new MyQuery();
             const path: PropertyPathPart[] = [{
                 type: 'property',
-                name: 'f'
+                name: 'data'
+            }, {
+                type: 'property',
+                name: 'e'
             }, {
                 type: 'property',
                 name: 'constructor'
@@ -139,34 +257,7 @@ describe('getQueryProperty', function () {
 
             let result;
             try {
-                result = await getQueryProperty(obj, path);
-            } catch { }
-
-            assert.notStrictEqual(result, 5);
-        });
-
-        it('url', async function () {
-            const obj = { a: new URL('https://www.google.com') } as any;
-            const path: PropertyPathPart[] = [{
-                type: 'property',
-                name: 'a'
-            }, {
-                type: 'property',
-                name: 'constructor'
-            }, {
-                type: 'property',
-                name: 'constructor'
-            }, {
-                type: 'function',
-                arguments: ['return 5']
-            }, {
-                type: 'function',
-                arguments: []
-            }];
-
-            let result;
-            try {
-                result = await getQueryProperty(obj, path);
+                result = await getQueryProperty(q, path);
             } catch { }
 
             assert.notStrictEqual(result, 5);
@@ -174,13 +265,14 @@ describe('getQueryProperty', function () {
     });
 
     it('leak source', async function () {
-        const obj = {
-            f: () => { return 5 }
-        };
+        const q = new MyQuery();
 
         const path: PropertyPathPart[] = [{
             type: 'property',
-            name: 'f'
+            name: 'data',
+        }, {
+            type: 'property',
+            name: 'c'
         }, {
             type: 'property',
             name: 'toString'
@@ -191,20 +283,21 @@ describe('getQueryProperty', function () {
 
         let result;
         try {
-            result = await getQueryProperty(obj as any, path);
+            result = await getQueryProperty(q, path);
         } catch { }
 
-        assert.notStrictEqual(result, obj.f.toString());
+        assert.notStrictEqual(result, q.data.c.toString());
     });
 
     it('mutate', async function () {
-        const obj = {
-            a: ['5', '2']
-        };
+        const q = new MyQuery();
 
         const path: PropertyPathPart[] = [{
             type: 'property',
-            name: 'a'
+            name: 'data'
+        }, {
+            type: 'property',
+            name: 'b'
         }, {
             type: 'property',
             name: 'pop'
@@ -214,9 +307,9 @@ describe('getQueryProperty', function () {
         }];
 
         try {
-            await getQueryProperty(obj as any, path);
+            await getQueryProperty(q, path);
         } catch { }
 
-        assert.deepStrictEqual(obj.a, ['5', '2']);
+        assert.deepStrictEqual(q.data.b, [5, 10]);
     });
 });
