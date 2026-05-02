@@ -1,4 +1,3 @@
-import { Dependency } from "async-reactivity";
 import Query from "./Query.js";
 
 export interface PropertyPathPart {
@@ -14,7 +13,7 @@ export interface Input {
 
 const proxyPath = Symbol('proxyPath');
 
-export const serialize = async <T1, T2>(func: (proxy: T2) => Promise<Dependency<Promise<T1>>>) => {
+export const serialize = async <T1, T2>(func: (proxy: T2) => Promise<T1>) => {
     const inputs: Input[] = [];
 
     const createProxy = (path: PropertyPathPart[] = []) => {

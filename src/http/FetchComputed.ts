@@ -1,4 +1,4 @@
-import { Computed, Dependency, TrackValue } from "async-reactivity";
+import { Computed, TrackValue } from "async-reactivity";
 import { serialize } from "../Serializer.js";
 import { FetchQuery } from "./FetchQuery.js";
 import { Query } from "../index.js";
@@ -6,7 +6,7 @@ import { Query } from "../index.js";
 export default class FetchComputed<T1, T2 extends FetchQuery> extends Computed<Promise<T1>> {
     constructor(
         query: T2,
-        getter: (value: TrackValue, scope: T2) => Promise<Dependency<Promise<T1>>>,
+        getter: (value: TrackValue, scope: T2) => Promise<T1>,
         isEqual?: (v1: Promise<T1>, v2: Promise<T1>) => boolean
     ) {
         super(async (value, _previousValue, abortSignal) => {
